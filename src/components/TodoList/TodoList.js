@@ -1,16 +1,24 @@
+import { useReducer } from "react";
+import { addTodo } from "../../actions/todos";
+import todosReducer, { initialState } from "../../reducers/todoReducer";
+import TodoItem from "../TodoItem/TodoItem";
+
 const TodoList = () => {
-  const todos = [
-    { id: 1, text: "Learn React", isCompleted: false },
-    { id: 2, text: "Build a todo app", isCompleted: true },
-    { id: 3, text: "Deploy to production", isCompleted: false },
-  ];
+  const [todos, dispatch] = useReducer(todosReducer, initialState);
+
+  const onAddTodo = () => {
+    dispatch(addTodo({ text: "test", isCompleted: false }));
+  };
 
   return (
     <div className="container">
       <h1>Todo List</h1>
       <ul>
-        {/* here */}
+        {todos.map((todo) => (
+          <TodoItem {...todo} />
+        ))}
       </ul>
+      <button onClick={onAddTodo}>Add todo</button>
     </div>
   );
 };
